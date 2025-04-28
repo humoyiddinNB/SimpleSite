@@ -7,13 +7,16 @@ from rest_framework import permissions
 from rest_framework.authentication import TokenAuthentication
 
 class Posts(generics.GenericAPIView):
-    permission_classes = permissions.IsAuthenticated,
-    authentication_classes = TokenAuthentication,
-    def get(self, requests):
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+
+    serializer_class = PostSerializers
+
+    def get(self, request):
         posts = Post.objects.all()
-        serializer = PostSerializers(posts, many=True)
+        serializer = self.get_serializer(posts, many=True)
         return Response({
-            'data' : serializer.data
+            'data': serializer.data
         })
 
 class ProductCreate(generics.CreateAPIView):
