@@ -10,6 +10,16 @@ from rest_framework.authtoken.models import Token
 from .models import CustomUser, OTP
 from rest_framework.authentication import TokenAuthentication
 import random
+from methodism import METHODISM
+from authapp import methods
+
+class Main(METHODISM):
+    file = methods
+    token_key = 'Token'
+    not_auth_methods = ['regis', 'login']
+
+
+
 
 
 
@@ -95,6 +105,7 @@ class LoginView(APIView):
             })
 
         user = CustomUser.objects.filter(phone=otp.phone).first()
+
         if not user:
             return Response({
                 "data" : "Bu telefondan royxatdan otilmagan"
